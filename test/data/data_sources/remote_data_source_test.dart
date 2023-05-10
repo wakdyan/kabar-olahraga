@@ -12,6 +12,10 @@ import '../../json_reader.dart';
 
 void main() {
   const baseUrl = 'https://v3.football.api-sports.io/';
+  const headers = {
+    'x-rapidapi-host': 'v3.football.api-sports.io',
+    'x-rapidapi-key': '5f2da4b3d7988f60b7acc56918d331c6',
+  };
 
   final mockHttpClient = MockHttpClient();
   final remoteDataSource = ImplRemoteDataSource(mockHttpClient);
@@ -27,10 +31,7 @@ void main() {
         when(
           mockHttpClient.get(
             Uri.parse('${baseUrl}countries'),
-            headers: {
-              'x-rapidapi-host': 'v3.football.api-sports.io',
-              'x-rapidapi-key': '5f2da4b3d7988f60b7acc56918d331c6',
-            },
+            headers: headers,
           ),
         ).thenAnswer(
           (_) async {
@@ -47,10 +48,7 @@ void main() {
         when(
           mockHttpClient.get(
             Uri.parse('${baseUrl}countries'),
-            headers: {
-              'x-rapidapi-host': 'v3.football.api-sports.io',
-              'x-rapidapi-key': '5f2da4b3d7988f60b7acc56918d331c6',
-            },
+            headers: headers,
           ),
         ).thenAnswer(
           (_) async {
@@ -68,10 +66,7 @@ void main() {
         when(
           mockHttpClient.get(
             Uri.parse('${baseUrl}countries'),
-            headers: {
-              'x-rapidapi-host': 'v3.football.api-sports.io',
-              'x-rapidapi-key': '5f2da4b3d7988f60b7acc56918d331c6',
-            },
+            headers: headers,
           ),
         ).thenAnswer(
           (_) async {
@@ -89,10 +84,7 @@ void main() {
         when(
           mockHttpClient.get(
             Uri.parse('${baseUrl}countries'),
-            headers: {
-              'x-rapidapi-host': 'v3.football.api-sports.io',
-              'x-rapidapi-key': '5f2da4b3d7988f60b7acc56918d331c6',
-            },
+            headers: headers,
           ),
         ).thenAnswer(
           (_) async {
