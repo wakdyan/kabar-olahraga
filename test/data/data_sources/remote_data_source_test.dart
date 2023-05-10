@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kabar_olahraga/common/exceptions.dart';
 import 'package:kabar_olahraga/data/data_sources/remote_data_source.dart';
 import 'package:kabar_olahraga/data/models/country_response.dart';
+import 'package:kabar_olahraga/data/models/league_response.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 
@@ -96,6 +97,99 @@ void main() {
 
         expect(() => result, throwsA(isA<ServerException>()));
       });
+    },
+  );
+
+  group(
+    'get leagues',
+    () {
+      test(
+        'should return leagues when the status code is 200',
+        () async {
+          final leagues = LeagueResponse.fromJson(
+            jsonDecode(readJson('dummy/leagues_200.json')),
+          ).leagues;
+
+          when(
+            mockHttpClient.get(
+              Uri.parse('${baseUrl}leagues'),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return http.Response(readJson('dummy/leagues_200.json'), 200);
+            },
+          );
+
+          final result = await remoteDataSource.getLeagues();
+
+          expect(result, equals(leagues));
+        },
+      );
+
+      test(
+        'should return null when the status code is 204',
+        () async {
+          final leagues = LeagueResponse.fromJson(
+            jsonDecode(readJson('dummy/leagues_204.json')),
+          ).leagues;
+
+          when(
+            mockHttpClient.get(
+              Uri.parse('${baseUrl}leagues'),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return http.Response(readJson('dummy/leagues_204.json'), 200);
+            },
+          );
+
+          final result = await remoteDataSource.getLeagues();
+
+          expect(result, equals(leagues));
+        },
+      );
+
+      test(
+        'should throw a time out exception when the status code is 499',
+        () {
+          when(
+            mockHttpClient.get(
+              Uri.parse('${baseUrl}leagues'),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return http.Response(readJson('dummy/leagues_499.json'), 499);
+            },
+          );
+
+          final result = remoteDataSource.getLeagues();
+
+          expect(result, throwsA(isA<TimeOutException>()));
+        },
+      );
+
+      test(
+        'should throw a server exception when the status code is 500',
+        () {
+          when(
+            mockHttpClient.get(
+              Uri.parse('${baseUrl}leagues'),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return http.Response(readJson('dummy/leagues_500.json'), 500);
+            },
+          );
+
+          final result = remoteDataSource.getLeagues();
+
+          expect(result, throwsA(isA<ServerException>()));
+        },
+      );
     },
   );
 }
