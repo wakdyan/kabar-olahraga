@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kabar_olahraga/common/exceptions.dart';
 import 'package:kabar_olahraga/data/data_sources/remote_data_source.dart';
 import 'package:kabar_olahraga/data/models/country_response.dart';
+import 'package:kabar_olahraga/data/models/fixture_response.dart';
 import 'package:kabar_olahraga/data/models/league_response.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
@@ -186,6 +187,99 @@ void main() {
           );
 
           final result = remoteDataSource.getLeagues();
+
+          expect(result, throwsA(isA<ServerException>()));
+        },
+      );
+    },
+  );
+
+  group(
+    'get fixtures',
+    () {
+      test(
+        'should return fixtures when the status code is 200',
+        () async {
+          final fixtures = FixtureResponse.fromJson(
+            jsonDecode(readJson('dummy/fixtures_200.json')),
+          ).fixtures;
+
+          when(
+            mockHttpClient.get(
+              Uri.parse('${baseUrl}fixtures'),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return http.Response(readJson('dummy/fixtures_200.json'), 200);
+            },
+          );
+
+          final result = await remoteDataSource.getFixtures();
+
+          expect(result, fixtures);
+        },
+      );
+
+      test(
+        'should return null when the status code is 204',
+        () async {
+          final fixtures = FixtureResponse.fromJson(
+            jsonDecode(readJson('dummy/fixtures_204.json')),
+          ).fixtures;
+
+          when(
+            mockHttpClient.get(
+              Uri.parse('${baseUrl}fixtures'),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return http.Response(readJson('dummy/fixtures_204.json'), 204);
+            },
+          );
+
+          final result = await remoteDataSource.getFixtures();
+
+          expect(result, fixtures);
+        },
+      );
+
+      test(
+        'should throw a time out exception when the status code is 499',
+        () async {
+          when(
+            mockHttpClient.get(
+              Uri.parse('${baseUrl}fixtures'),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return http.Response(readJson('dummy/fixtures_499.json'), 499);
+            },
+          );
+
+          final result = remoteDataSource.getFixtures();
+
+          expect(result, throwsA(isA<TimeOutException>()));
+        },
+      );
+
+      test(
+        'should throw a server exception when the status code is 500',
+        () async {
+          when(
+            mockHttpClient.get(
+              Uri.parse('${baseUrl}fixtures'),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return http.Response(readJson('dummy/fixtures_500.json'), 500);
+            },
+          );
+
+          final result = remoteDataSource.getFixtures();
 
           expect(result, throwsA(isA<ServerException>()));
         },
