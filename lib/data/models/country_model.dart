@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../domain/entities/country.dart';
+
 class CountryModel extends Equatable {
   final String name;
   final String code;
@@ -22,6 +24,8 @@ class CountryModel extends Equatable {
       'flag': flag,
     };
   }
+
+  Country toEntity() => Country(name, code, flag);
 
   @override
   List<Object?> get props => [name, code, flag];
