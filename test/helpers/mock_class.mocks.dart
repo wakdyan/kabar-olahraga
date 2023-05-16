@@ -3,11 +3,16 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
-import 'dart:convert' as _i4;
-import 'dart:typed_data' as _i5;
+import 'dart:async' as _i4;
+import 'dart:convert' as _i8;
+import 'dart:typed_data' as _i9;
 
 import 'package:http/http.dart' as _i2;
+import 'package:kabar_olahraga/data/data_sources/remote_data_source.dart'
+    as _i3;
+import 'package:kabar_olahraga/data/models/country_model.dart' as _i5;
+import 'package:kabar_olahraga/data/models/fixture_model.dart' as _i7;
+import 'package:kabar_olahraga/data/models/league_model.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -42,6 +47,43 @@ class _FakeStreamedResponse_1 extends _i1.SmartFake
         );
 }
 
+/// A class which mocks [RemoteDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockRemoteDataSource extends _i1.Mock implements _i3.RemoteDataSource {
+  MockRemoteDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<List<_i5.CountryModel>> getCountries() => (super.noSuchMethod(
+        Invocation.method(
+          #getCountries,
+          [],
+        ),
+        returnValue:
+            _i4.Future<List<_i5.CountryModel>>.value(<_i5.CountryModel>[]),
+      ) as _i4.Future<List<_i5.CountryModel>>);
+  @override
+  _i4.Future<List<_i6.LeagueModel>> getLeagues() => (super.noSuchMethod(
+        Invocation.method(
+          #getLeagues,
+          [],
+        ),
+        returnValue:
+            _i4.Future<List<_i6.LeagueModel>>.value(<_i6.LeagueModel>[]),
+      ) as _i4.Future<List<_i6.LeagueModel>>);
+  @override
+  _i4.Future<List<_i7.FixtureModel>> getFixtures() => (super.noSuchMethod(
+        Invocation.method(
+          #getFixtures,
+          [],
+        ),
+        returnValue:
+            _i4.Future<List<_i7.FixtureModel>>.value(<_i7.FixtureModel>[]),
+      ) as _i4.Future<List<_i7.FixtureModel>>);
+}
+
 /// A class which mocks [Client].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -51,7 +93,7 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
   }
 
   @override
-  _i3.Future<_i2.Response> head(
+  _i4.Future<_i2.Response> head(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -61,7 +103,7 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i3.Future<_i2.Response>.value(_FakeResponse_0(
+        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
           this,
           Invocation.method(
             #head,
@@ -69,9 +111,9 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
             {#headers: headers},
           ),
         )),
-      ) as _i3.Future<_i2.Response>);
+      ) as _i4.Future<_i2.Response>);
   @override
-  _i3.Future<_i2.Response> get(
+  _i4.Future<_i2.Response> get(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -81,7 +123,7 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i3.Future<_i2.Response>.value(_FakeResponse_0(
+        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
           this,
           Invocation.method(
             #get,
@@ -89,13 +131,13 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
             {#headers: headers},
           ),
         )),
-      ) as _i3.Future<_i2.Response>);
+      ) as _i4.Future<_i2.Response>);
   @override
-  _i3.Future<_i2.Response> post(
+  _i4.Future<_i2.Response> post(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i4.Encoding? encoding,
+    _i8.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -107,7 +149,7 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i3.Future<_i2.Response>.value(_FakeResponse_0(
+        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
           this,
           Invocation.method(
             #post,
@@ -119,13 +161,13 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
             },
           ),
         )),
-      ) as _i3.Future<_i2.Response>);
+      ) as _i4.Future<_i2.Response>);
   @override
-  _i3.Future<_i2.Response> put(
+  _i4.Future<_i2.Response> put(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i4.Encoding? encoding,
+    _i8.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -137,7 +179,7 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i3.Future<_i2.Response>.value(_FakeResponse_0(
+        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
           this,
           Invocation.method(
             #put,
@@ -149,13 +191,13 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
             },
           ),
         )),
-      ) as _i3.Future<_i2.Response>);
+      ) as _i4.Future<_i2.Response>);
   @override
-  _i3.Future<_i2.Response> patch(
+  _i4.Future<_i2.Response> patch(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i4.Encoding? encoding,
+    _i8.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -167,7 +209,7 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i3.Future<_i2.Response>.value(_FakeResponse_0(
+        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
           this,
           Invocation.method(
             #patch,
@@ -179,13 +221,13 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
             },
           ),
         )),
-      ) as _i3.Future<_i2.Response>);
+      ) as _i4.Future<_i2.Response>);
   @override
-  _i3.Future<_i2.Response> delete(
+  _i4.Future<_i2.Response> delete(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i4.Encoding? encoding,
+    _i8.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -197,7 +239,7 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i3.Future<_i2.Response>.value(_FakeResponse_0(
+        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
           this,
           Invocation.method(
             #delete,
@@ -209,9 +251,9 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
             },
           ),
         )),
-      ) as _i3.Future<_i2.Response>);
+      ) as _i4.Future<_i2.Response>);
   @override
-  _i3.Future<String> read(
+  _i4.Future<String> read(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -221,10 +263,10 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i3.Future<String>.value(''),
-      ) as _i3.Future<String>);
+        returnValue: _i4.Future<String>.value(''),
+      ) as _i4.Future<String>);
   @override
-  _i3.Future<_i5.Uint8List> readBytes(
+  _i4.Future<_i9.Uint8List> readBytes(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -234,24 +276,24 @@ class MockHttpClient extends _i1.Mock implements _i2.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i3.Future<_i5.Uint8List>.value(_i5.Uint8List(0)),
-      ) as _i3.Future<_i5.Uint8List>);
+        returnValue: _i4.Future<_i9.Uint8List>.value(_i9.Uint8List(0)),
+      ) as _i4.Future<_i9.Uint8List>);
   @override
-  _i3.Future<_i2.StreamedResponse> send(_i2.BaseRequest? request) =>
+  _i4.Future<_i2.StreamedResponse> send(_i2.BaseRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #send,
           [request],
         ),
         returnValue:
-            _i3.Future<_i2.StreamedResponse>.value(_FakeStreamedResponse_1(
+            _i4.Future<_i2.StreamedResponse>.value(_FakeStreamedResponse_1(
           this,
           Invocation.method(
             #send,
             [request],
           ),
         )),
-      ) as _i3.Future<_i2.StreamedResponse>);
+      ) as _i4.Future<_i2.StreamedResponse>);
   @override
   void close() => super.noSuchMethod(
         Invocation.method(
