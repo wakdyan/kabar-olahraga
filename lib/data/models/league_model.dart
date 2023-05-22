@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import '../../domain/entities/league.dart' as e;
 
 class LeagueModel extends Equatable {
   final League league;
@@ -17,6 +18,15 @@ class LeagueModel extends Equatable {
       country: Country.fromJson(json['country']),
       seasons:
           List.from(json['seasons']).map((e) => Season.fromJson(e)).toList(),
+    );
+  }
+
+  e.League toEntity() {
+    return e.League(
+      league.id,
+      league.name,
+      league.type,
+      league.logo,
     );
   }
 
