@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kabar_olahraga/common/exceptions.dart';
@@ -63,24 +64,6 @@ void main() {
         expect(result, []);
       });
 
-      test('should throw an time out exception when the status code is 499',
-          () async {
-        when(
-          mockHttpClient.get(
-            Uri.parse('${baseUrl}countries'),
-            headers: headers,
-          ),
-        ).thenAnswer(
-          (_) async {
-            return http.Response(readJson('dummy/countries_499.json'), 499);
-          },
-        );
-
-        final result = remoteDataSource.getCountries();
-
-        expect(() => result, throwsA(isA<TimeOutException>()));
-      });
-
       test('should throw a server exception when the status code is 500',
           () async {
         when(
@@ -98,6 +81,22 @@ void main() {
 
         expect(() => result, throwsA(isA<ServerException>()));
       });
+
+      test(
+        'throw socket exception when the device is not connected',
+        () async {
+          when(
+            mockHttpClient.get(
+              Uri.parse('${baseUrl}countries'),
+              headers: headers,
+            ),
+          ).thenThrow(const SocketException('message'));
+
+          final result = remoteDataSource.getCountries();
+
+          expect(result, throwsA(isA<SocketException>()));
+        },
+      );
     },
   );
 
@@ -153,26 +152,6 @@ void main() {
       );
 
       test(
-        'should throw a time out exception when the status code is 499',
-        () {
-          when(
-            mockHttpClient.get(
-              Uri.parse('${baseUrl}leagues'),
-              headers: headers,
-            ),
-          ).thenAnswer(
-            (_) async {
-              return http.Response(readJson('dummy/leagues_499.json'), 499);
-            },
-          );
-
-          final result = remoteDataSource.getLeagues();
-
-          expect(result, throwsA(isA<TimeOutException>()));
-        },
-      );
-
-      test(
         'should throw a server exception when the status code is 500',
         () {
           when(
@@ -189,6 +168,22 @@ void main() {
           final result = remoteDataSource.getLeagues();
 
           expect(result, throwsA(isA<ServerException>()));
+        },
+      );
+
+      test(
+        'throw socket exception when the device is not connected',
+        () async {
+          when(
+            mockHttpClient.get(
+              Uri.parse('${baseUrl}leagues'),
+              headers: headers,
+            ),
+          ).thenThrow(const SocketException('message'));
+
+          final result = remoteDataSource.getLeagues();
+
+          expect(result, throwsA(isA<SocketException>()));
         },
       );
     },
@@ -246,26 +241,6 @@ void main() {
       );
 
       test(
-        'should throw a time out exception when the status code is 499',
-        () async {
-          when(
-            mockHttpClient.get(
-              Uri.parse('${baseUrl}fixtures'),
-              headers: headers,
-            ),
-          ).thenAnswer(
-            (_) async {
-              return http.Response(readJson('dummy/fixtures_499.json'), 499);
-            },
-          );
-
-          final result = remoteDataSource.getFixtures();
-
-          expect(result, throwsA(isA<TimeOutException>()));
-        },
-      );
-
-      test(
         'should throw a server exception when the status code is 500',
         () async {
           when(
@@ -282,6 +257,22 @@ void main() {
           final result = remoteDataSource.getFixtures();
 
           expect(result, throwsA(isA<ServerException>()));
+        },
+      );
+
+      test(
+        'throw socket exception when the device is not connected',
+        () async {
+          when(
+            mockHttpClient.get(
+              Uri.parse('${baseUrl}fixtures'),
+              headers: headers,
+            ),
+          ).thenThrow(const SocketException('message'));
+
+          final result = remoteDataSource.getFixtures();
+
+          expect(result, throwsA(isA<SocketException>()));
         },
       );
     },
