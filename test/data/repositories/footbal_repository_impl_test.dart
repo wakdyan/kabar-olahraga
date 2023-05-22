@@ -6,6 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kabar_olahraga/common/exceptions.dart';
 import 'package:kabar_olahraga/common/failure.dart';
 import 'package:kabar_olahraga/data/models/country_response.dart';
+import 'package:kabar_olahraga/domain/entities/league.dart' as e;
+import 'package:kabar_olahraga/data/models/league_response.dart';
 import 'package:kabar_olahraga/data/repositories/footbal_repository_impl.dart';
 import 'package:mockito/mockito.dart';
 
@@ -50,6 +52,52 @@ void main() {
             .thenThrow(const SocketException(''));
 
         final result = await repository.getCountries();
+
+        expect(
+          result,
+          const Left(ConnectionFailure('Failed to connect to the network')),
+        );
+      },
+    );
+  });
+
+  group('getLeagues', () {
+    test('should return Leauge when request is successfull', () async {
+      final decode = json.decode(readJson('dummy/leagues_200.json'));
+      final leagueModel = LeagueResponse.fromJson(decode).leagues;
+      final leagues = <e.League>[
+        for (var league in leagueModel) league.toEntity()
+      ];
+
+      when(mockRemoteDataSource.getLeagues()).thenAnswer((_) async {
+        return leagueModel;
+      });
+
+      final result = await repository.getLeagues();
+      final resultList = result.getOrElse(() => []);
+
+      expect(resultList, leagues);
+    });
+
+    test(
+      'should return ServerFailure when request is unsuccessfull',
+      () async {
+        when(mockRemoteDataSource.getLeagues())
+            .thenThrow(const ServerException(''));
+
+        final result = await repository.getLeagues();
+
+        expect(result, const Left(ServerFailure('')));
+      },
+    );
+
+    test(
+      'should return ConnectionFailure when no internet connection',
+      () async {
+        when(mockRemoteDataSource.getLeagues()).thenThrow(
+            const SocketException('Failed to connect to the network'));
+
+        final result = await repository.getLeagues();
 
         expect(
           result,
