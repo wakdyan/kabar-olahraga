@@ -19,8 +19,6 @@ class FootballRepositoryImpl extends FootballRepository {
       final result = await remoteDataSource.getCountries();
       final countries = result.map((e) => e.toEntity()).toList();
       return Right(countries);
-    } on TimeOutException catch (e) {
-      return Left(ServerFailure(e.message));
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {
