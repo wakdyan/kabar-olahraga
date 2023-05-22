@@ -38,8 +38,6 @@ class ImplRemoteDataSource extends RemoteDataSource {
     final json = jsonDecode(result.body);
     if (result.statusCode == 200 || result.statusCode == 204) {
       return CountryResponse.fromJson(json).countries;
-    } else if (result.statusCode == 499) {
-      throw TimeOutException(json['message']);
     } else {
       throw ServerException(json['message']);
     }
@@ -54,8 +52,6 @@ class ImplRemoteDataSource extends RemoteDataSource {
     final json = jsonDecode(result.body);
     if (result.statusCode == 200 || result.statusCode == 204) {
       return LeagueResponse.fromJson(json).leagues;
-    } else if (result.statusCode == 499) {
-      throw TimeOutException(json['message']);
     } else {
       throw ServerException(json['message']);
     }
@@ -70,8 +66,6 @@ class ImplRemoteDataSource extends RemoteDataSource {
     final json = jsonDecode(result.body);
     if (result.statusCode == 200 || result.statusCode == 204) {
       return FixtureResponse.fromJson(json).fixtures;
-    } else if (result.statusCode == 499) {
-      throw TimeOutException(json['message']);
     } else {
       throw ServerException(json['message']);
     }
