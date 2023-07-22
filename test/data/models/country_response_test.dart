@@ -18,14 +18,9 @@ void main() {
     const matcher = CountryResponse(countries);
 
     final parsedJson = jsonDecode(readJson('dummy/countries_200.json'));
-    final responses = parsedJson['response'];
-    final result = <CountryModel>[];
+    final result = CountryResponse.fromJson(parsedJson);
 
-    for (var response in responses) {
-      result.add(CountryModel.fromJson(response));
-    }
-
-    expect(result, matcher.countries);
+    expect(result, matcher);
   });
 
   test('country response parsing with empty data', () {
@@ -33,12 +28,7 @@ void main() {
     const matcher = CountryResponse(countries);
 
     final parsedJson = jsonDecode(readJson('dummy/countries_204.json'));
-    final responses = parsedJson['response'];
-    final result = <CountryModel>[];
-
-    for (var response in responses) {
-      result.add(CountryModel.fromJson(response));
-    }
+    final result = parsedJson['response'];
 
     expect(result, matcher.countries);
   });
@@ -49,6 +39,30 @@ void main() {
 
     final parsedJson = jsonDecode(readJson('dummy/countries_499.json'));
     final result = parsedJson['message'];
+
+    expect(result, matcher);
+  });
+
+  test('country response unparsing', () {
+    const matcher = {
+      "response": [
+        {
+          "name": "England",
+          "code": "GB",
+          "flag": "https://media.api-sports.io/flags/gb.svg"
+        },
+      ],
+    };
+    const countries = [
+      CountryModel(
+        "England",
+        "GB",
+        "https://media.api-sports.io/flags/gb.svg",
+      ),
+    ];
+    const data = CountryResponse(countries);
+
+    final result = data.toJson();
 
     expect(result, matcher);
   });
