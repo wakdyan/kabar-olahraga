@@ -19,4 +19,21 @@ void main() {
 
     expect(result, matcher);
   });
+
+  test('country model unparsing', () {
+    const matcher = {
+      "name": "England",
+      "code": "GB",
+      "flag": "https://media.api-sports.io/flags/gb.svg"
+    };
+    const data = CountryModel(
+      "England",
+      "GB",
+      "https://media.api-sports.io/flags/gb.svg",
+    );
+
+    final result = data.toJson();
+
+    expect(result, matcher);
+  });
 }
