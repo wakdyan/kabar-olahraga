@@ -33,5 +33,5 @@ class FixtureModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [fixture, league, teams, goals];
+  List<Object?> get props => [fixture, league, teams, goals, score];
 }
