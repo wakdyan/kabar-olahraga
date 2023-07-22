@@ -14,7 +14,8 @@ class CountryResponse extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'response': List<CountryModel>.from(countries).map((e) => e.toJson())
+      'response':
+          List<CountryModel>.from(countries).map((e) => e.toJson()).toList()
     };
   }
 
