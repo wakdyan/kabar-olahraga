@@ -1,0 +1,79 @@
+import 'dart:convert';
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:kabar_olahraga/data/models/league_model.dart';
+import 'package:kabar_olahraga/data/models/league_response.dart';
+
+import '../../json_reader.dart';
+
+void main() {
+  test('league response parsing with data', () {
+    const leagues = [
+      LeagueModel(
+        league: League(
+          39,
+          'Premier League',
+          'League',
+          'https://media.api-sports.io/football/leagues/2.png',
+        ),
+        country: Country(
+          'England',
+          'GB',
+          'https://media.api-sports.io/flags/gb.svg',
+        ),
+        seasons: [
+          Season(
+            2010,
+            '2010-08-14',
+            '2011-05-17',
+            false,
+            Coverage(
+              fixtures: Fixtures(
+                events: true,
+                lineups: true,
+                statisticsFixtures: false,
+                statisticsPlayers: false,
+              ),
+              standings: true,
+              players: true,
+              topScores: true,
+              topAssists: true,
+              topCards: true,
+              injuries: true,
+              predictions: true,
+              odds: false,
+            ),
+          ),
+          Season(
+            2011,
+            '2011-08-13',
+            '2012-05-13',
+            false,
+            Coverage(
+              fixtures: Fixtures(
+                events: true,
+                lineups: true,
+                statisticsFixtures: false,
+                statisticsPlayers: false,
+              ),
+              standings: true,
+              players: true,
+              topScores: true,
+              topAssists: true,
+              topCards: true,
+              injuries: true,
+              predictions: true,
+              odds: false,
+            ),
+          ),
+        ],
+      ),
+    ];
+    const matcher = LeagueResponse(leagues);
+
+    final parsedJson = jsonDecode(readJson('dummy/leagues_200.json'));
+    final result = LeagueResponse.fromJson(parsedJson);
+
+    expect(result, matcher);
+  });
+}
