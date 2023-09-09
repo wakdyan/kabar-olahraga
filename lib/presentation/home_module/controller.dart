@@ -11,7 +11,9 @@ class HomeController extends GetxController {
   var leagues = <League>[];
   var requestState = RequestState.idle;
 
-  HomeController(this._usecase);
+  HomeController(this._usecase) {
+    getLeagues();
+  }
 
   Future<void> getLeagues() async {
     requestState = RequestState.busy;
