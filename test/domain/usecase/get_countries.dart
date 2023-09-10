@@ -5,13 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kabar_olahraga/common/failure.dart';
 import 'package:kabar_olahraga/data/models/country_response.dart';
 import 'package:kabar_olahraga/domain/entities/country.dart';
-import 'package:kabar_olahraga/domain/repositories/footbal_repository.dart';
 import 'package:kabar_olahraga/domain/usecase/get_countries.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../helpers/mock_class.dart';
 import '../../json_reader.dart';
-
-class MockFootballRepository extends Mock implements FootballRepository {}
 
 void main() {
   final mockRepository = MockFootballRepository();
