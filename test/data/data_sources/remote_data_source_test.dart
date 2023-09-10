@@ -10,9 +10,8 @@ import 'package:kabar_olahraga/data/models/fixture_response.dart';
 import 'package:kabar_olahraga/data/models/league_response.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../helpers/mock_class.dart';
 import '../../json_reader.dart';
-
-class MockClient extends Mock implements Client {}
 
 void main() {
   const baseUrl = 'https://v3.football.api-sports.io/';
