@@ -2,16 +2,17 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart';
 import 'package:kabar_olahraga/common/exceptions.dart';
 import 'package:kabar_olahraga/data/data_sources/remote_data_source.dart';
 import 'package:kabar_olahraga/data/models/country_response.dart';
 import 'package:kabar_olahraga/data/models/fixture_response.dart';
 import 'package:kabar_olahraga/data/models/league_response.dart';
-import 'package:mockito/mockito.dart';
-import 'package:http/http.dart' as http;
+import 'package:mocktail/mocktail.dart';
 
-import '../../helpers/mock_class.mocks.dart';
 import '../../json_reader.dart';
+
+class MockClient extends Mock implements Client {}
 
 void main() {
   const baseUrl = 'https://v3.football.api-sports.io/';
@@ -20,25 +21,27 @@ void main() {
     'x-rapidapi-key': '5f2da4b3d7988f60b7acc56918d331c6',
   };
 
-  final mockHttpClient = MockHttpClient();
+  final mockHttpClient = MockClient();
   final remoteDataSource = ImplRemoteDataSource(mockHttpClient);
 
   group(
     'get countries',
     () {
+      const uri = '${baseUrl}countries';
+
       test('should return countries when the status code is 200', () async {
         final countries = CountryResponse.fromJson(
           jsonDecode(readJson('dummy/countries_200.json')),
         ).countries;
 
         when(
-          mockHttpClient.get(
-            Uri.parse('${baseUrl}countries'),
+          () => mockHttpClient.get(
+            Uri.parse(uri),
             headers: headers,
           ),
         ).thenAnswer(
           (_) async {
-            return http.Response(readJson('dummy/countries_200.json'), 200);
+            return Response(readJson('dummy/countries_200.json'), 200);
           },
         );
 
@@ -49,13 +52,13 @@ void main() {
 
       test('should return null when the status code is 204', () async {
         when(
-          mockHttpClient.get(
-            Uri.parse('${baseUrl}countries'),
+          () => mockHttpClient.get(
+            Uri.parse(uri),
             headers: headers,
           ),
         ).thenAnswer(
           (_) async {
-            return http.Response(readJson('dummy/countries_204.json'), 204);
+            return Response(readJson('dummy/countries_204.json'), 204);
           },
         );
 
@@ -67,13 +70,13 @@ void main() {
       test('should throw a server exception when the status code is 500',
           () async {
         when(
-          mockHttpClient.get(
-            Uri.parse('${baseUrl}countries'),
+          () => mockHttpClient.get(
+            Uri.parse(uri),
             headers: headers,
           ),
         ).thenAnswer(
           (_) async {
-            return http.Response(readJson('dummy/countries_500.json'), 500);
+            return Response(readJson('dummy/countries_500.json'), 500);
           },
         );
 
@@ -86,8 +89,8 @@ void main() {
         'throw socket exception when the device is not connected',
         () async {
           when(
-            mockHttpClient.get(
-              Uri.parse('${baseUrl}countries'),
+            () => mockHttpClient.get(
+              Uri.parse(uri),
               headers: headers,
             ),
           ).thenThrow(const SocketException('message'));
@@ -103,6 +106,8 @@ void main() {
   group(
     'get leagues',
     () {
+      const uri = '${baseUrl}leagues';
+
       test(
         'should return leagues when the status code is 200',
         () async {
@@ -111,13 +116,13 @@ void main() {
           ).leagues;
 
           when(
-            mockHttpClient.get(
-              Uri.parse('${baseUrl}leagues'),
+            () => mockHttpClient.get(
+              Uri.parse(uri),
               headers: headers,
             ),
           ).thenAnswer(
             (_) async {
-              return http.Response(readJson('dummy/leagues_200.json'), 200);
+              return Response(readJson('dummy/leagues_200.json'), 200);
             },
           );
 
@@ -135,13 +140,13 @@ void main() {
           ).leagues;
 
           when(
-            mockHttpClient.get(
-              Uri.parse('${baseUrl}leagues'),
+            () => mockHttpClient.get(
+              Uri.parse(uri),
               headers: headers,
             ),
           ).thenAnswer(
             (_) async {
-              return http.Response(readJson('dummy/leagues_204.json'), 200);
+              return Response(readJson('dummy/leagues_204.json'), 200);
             },
           );
 
@@ -155,13 +160,13 @@ void main() {
         'should throw a server exception when the status code is 500',
         () {
           when(
-            mockHttpClient.get(
-              Uri.parse('${baseUrl}leagues'),
+            () => mockHttpClient.get(
+              Uri.parse(uri),
               headers: headers,
             ),
           ).thenAnswer(
             (_) async {
-              return http.Response(readJson('dummy/leagues_500.json'), 500);
+              return Response(readJson('dummy/leagues_500.json'), 500);
             },
           );
 
@@ -175,8 +180,8 @@ void main() {
         'throw socket exception when the device is not connected',
         () async {
           when(
-            mockHttpClient.get(
-              Uri.parse('${baseUrl}leagues'),
+            () => mockHttpClient.get(
+              Uri.parse(uri),
               headers: headers,
             ),
           ).thenThrow(const SocketException('message'));
@@ -192,6 +197,8 @@ void main() {
   group(
     'get fixtures',
     () {
+      const uri = '${baseUrl}fixtures';
+
       test(
         'should return fixtures when the status code is 200',
         () async {
@@ -200,13 +207,13 @@ void main() {
           ).fixtures;
 
           when(
-            mockHttpClient.get(
-              Uri.parse('${baseUrl}fixtures'),
+            () => mockHttpClient.get(
+              Uri.parse(uri),
               headers: headers,
             ),
           ).thenAnswer(
             (_) async {
-              return http.Response(readJson('dummy/fixtures_200.json'), 200);
+              return Response(readJson('dummy/fixtures_200.json'), 200);
             },
           );
 
@@ -224,13 +231,13 @@ void main() {
           ).fixtures;
 
           when(
-            mockHttpClient.get(
-              Uri.parse('${baseUrl}fixtures'),
+            () => mockHttpClient.get(
+              Uri.parse(uri),
               headers: headers,
             ),
           ).thenAnswer(
             (_) async {
-              return http.Response(readJson('dummy/fixtures_204.json'), 204);
+              return Response(readJson('dummy/fixtures_204.json'), 204);
             },
           );
 
@@ -244,13 +251,13 @@ void main() {
         'should throw a server exception when the status code is 500',
         () async {
           when(
-            mockHttpClient.get(
-              Uri.parse('${baseUrl}fixtures'),
+            () => mockHttpClient.get(
+              Uri.parse(uri),
               headers: headers,
             ),
           ).thenAnswer(
             (_) async {
-              return http.Response(readJson('dummy/fixtures_500.json'), 500);
+              return Response(readJson('dummy/fixtures_500.json'), 500);
             },
           );
 
@@ -264,8 +271,8 @@ void main() {
         'throw socket exception when the device is not connected',
         () async {
           when(
-            mockHttpClient.get(
-              Uri.parse('${baseUrl}fixtures'),
+            () => mockHttpClient.get(
+              Uri.parse(uri),
               headers: headers,
             ),
           ).thenThrow(const SocketException('message'));
