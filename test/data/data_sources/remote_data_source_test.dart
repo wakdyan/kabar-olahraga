@@ -28,64 +28,72 @@ void main() {
     () {
       const uri = '${baseUrl}countries';
 
-      test('should return countries when the status code is 200', () async {
-        final countries = CountryResponse.fromJson(
-          jsonDecode(readJson('dummy/countries_200.json')),
-        ).countries;
+      test(
+        'should return [countries] when the status code is 200',
+        () async {
+          final countries = CountryResponse.fromJson(
+            jsonDecode(readJson('dummy/countries_200.json')),
+          ).countries;
 
-        when(
-          () => mockHttpClient.get(
-            Uri.parse(uri),
-            headers: headers,
-          ),
-        ).thenAnswer(
-          (_) async {
-            return Response(readJson('dummy/countries_200.json'), 200);
-          },
-        );
+          when(
+            () => mockHttpClient.get(
+              Uri.parse(uri),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return Response(readJson('dummy/countries_200.json'), 200);
+            },
+          );
 
-        final result = await remoteDataSource.getCountries();
+          final result = await remoteDataSource.getCountries();
 
-        expect(result, equals(countries));
-      });
-
-      test('should return null when the status code is 204', () async {
-        when(
-          () => mockHttpClient.get(
-            Uri.parse(uri),
-            headers: headers,
-          ),
-        ).thenAnswer(
-          (_) async {
-            return Response(readJson('dummy/countries_204.json'), 204);
-          },
-        );
-
-        final result = await remoteDataSource.getCountries();
-
-        expect(result, []);
-      });
-
-      test('should throw a server exception when the status code is 500',
-          () async {
-        when(
-          () => mockHttpClient.get(
-            Uri.parse(uri),
-            headers: headers,
-          ),
-        ).thenAnswer(
-          (_) async {
-            return Response(readJson('dummy/countries_500.json'), 500);
-          },
-        );
-
-        final result = remoteDataSource.getCountries();
-
-        expect(() => result, throwsA(isA<ServerException>()));
-      });
+          expect(result, equals(countries));
+        },
+      );
 
       test(
-        'throw socket exception when the device is not connected',
+        'should return [null] when the status code is 204',
+        () async {
+          when(
+            () => mockHttpClient.get(
+              Uri.parse(uri),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return Response(readJson('dummy/countries_204.json'), 204);
+            },
+          );
+
+          final result = await remoteDataSource.getCountries();
+
+          expect(result, []);
+        },
+      );
+
+      test(
+        'should throw an [server exception] when the status code is 500',
+        () async {
+          when(
+            () => mockHttpClient.get(
+              Uri.parse(uri),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return Response(readJson('dummy/countries_500.json'), 500);
+            },
+          );
+
+          final result = remoteDataSource.getCountries();
+
+          expect(() => result, throwsA(isA<ServerException>()));
+        },
+      );
+
+      test(
+        'should throw a [socket exception] when the device is not connected',
         () async {
           when(
             () => mockHttpClient.get(
@@ -108,7 +116,7 @@ void main() {
       const uri = '${baseUrl}leagues';
 
       test(
-        'should return leagues when the status code is 200',
+        'should return [leagues] when the status code is 200',
         () async {
           final leagues = LeagueResponse.fromJson(
             jsonDecode(readJson('dummy/leagues_200.json')),
@@ -132,7 +140,7 @@ void main() {
       );
 
       test(
-        'should return null when the status code is 204',
+        'should return [null] when the status code is 204',
         () async {
           final leagues = LeagueResponse.fromJson(
             jsonDecode(readJson('dummy/leagues_204.json')),
@@ -156,7 +164,7 @@ void main() {
       );
 
       test(
-        'should throw a server exception when the status code is 500',
+        'should throw a [server exception] when the status code is 500',
         () {
           when(
             () => mockHttpClient.get(
@@ -176,7 +184,7 @@ void main() {
       );
 
       test(
-        'throw socket exception when the device is not connected',
+        'throw [socket exception] when the device is not connected',
         () async {
           when(
             () => mockHttpClient.get(
@@ -199,7 +207,7 @@ void main() {
       const uri = '${baseUrl}fixtures';
 
       test(
-        'should return fixtures when the status code is 200',
+        'should return [fixtures] when the status code is 200',
         () async {
           final fixtures = FixtureResponse.fromJson(
             jsonDecode(readJson('dummy/fixtures_200.json')),
@@ -223,7 +231,7 @@ void main() {
       );
 
       test(
-        'should return null when the status code is 204',
+        'should return [null] when the status code is 204',
         () async {
           final fixtures = FixtureResponse.fromJson(
             jsonDecode(readJson('dummy/fixtures_204.json')),
@@ -247,7 +255,7 @@ void main() {
       );
 
       test(
-        'should throw a server exception when the status code is 500',
+        'should throw a [server exception] when the status code is 500',
         () async {
           when(
             () => mockHttpClient.get(
@@ -267,7 +275,7 @@ void main() {
       );
 
       test(
-        'throw socket exception when the device is not connected',
+        'should throw [socket exception] when the device is not connected',
         () async {
           when(
             () => mockHttpClient.get(
