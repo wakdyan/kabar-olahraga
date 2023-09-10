@@ -5,14 +5,16 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kabar_olahraga/common/exceptions.dart';
 import 'package:kabar_olahraga/common/failure.dart';
+import 'package:kabar_olahraga/data/data_sources/remote_data_source.dart';
 import 'package:kabar_olahraga/data/models/country_response.dart';
 import 'package:kabar_olahraga/domain/entities/league.dart' as e;
 import 'package:kabar_olahraga/data/models/league_response.dart';
 import 'package:kabar_olahraga/data/repositories/footbal_repository_impl.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import '../../helpers/mock_class.mocks.dart';
 import '../../json_reader.dart';
+
+class MockRemoteDataSource extends Mock implements RemoteDataSource {}
 
 void main() {
   final mockRemoteDataSource = MockRemoteDataSource();
@@ -26,7 +28,7 @@ void main() {
         for (final country in countryModel) country.toEntity()
       ];
 
-      when(mockRemoteDataSource.getCountries()).thenAnswer((_) async {
+      when(() => mockRemoteDataSource.getCountries()).thenAnswer((_) async {
         return countryModel;
       });
 
@@ -37,7 +39,7 @@ void main() {
     });
 
     test('should return ServerFailure when request is unsuccessfull', () async {
-      when(mockRemoteDataSource.getCountries())
+      when(() => mockRemoteDataSource.getCountries())
           .thenThrow(const ServerException(''));
 
       final result = await repository.getCountries();
@@ -48,7 +50,7 @@ void main() {
     test(
       'should return ConnectionFailure when no internet connection',
       () async {
-        when(mockRemoteDataSource.getCountries())
+        when(() => mockRemoteDataSource.getCountries())
             .thenThrow(const SocketException(''));
 
         final result = await repository.getCountries();
@@ -69,7 +71,7 @@ void main() {
         for (var league in leagueModel) league.toEntity()
       ];
 
-      when(mockRemoteDataSource.getLeagues()).thenAnswer((_) async {
+      when(() => mockRemoteDataSource.getLeagues()).thenAnswer((_) async {
         return leagueModel;
       });
 
@@ -82,7 +84,7 @@ void main() {
     test(
       'should return ServerFailure when request is unsuccessfull',
       () async {
-        when(mockRemoteDataSource.getLeagues())
+        when(() => mockRemoteDataSource.getLeagues())
             .thenThrow(const ServerException(''));
 
         final result = await repository.getLeagues();
@@ -94,7 +96,7 @@ void main() {
     test(
       'should return ConnectionFailure when no internet connection',
       () async {
-        when(mockRemoteDataSource.getLeagues()).thenThrow(
+        when(() => mockRemoteDataSource.getLeagues()).thenThrow(
             const SocketException('Failed to connect to the network'));
 
         final result = await repository.getLeagues();
