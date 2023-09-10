@@ -1,13 +1,10 @@
-import 'package:kabar_olahraga/data/data_sources/remote_data_source.dart';
+import 'package:http/http.dart';
 import 'package:kabar_olahraga/domain/repositories/footbal_repository.dart';
 import 'package:kabar_olahraga/domain/usecase/get_leagues.dart';
-import 'package:mockito/annotations.dart';
-import 'package:http/http.dart' as http;
+import 'package:mocktail/mocktail.dart';
 
-// import '../presentation/home_module/my_test.dart';
+class MockClient extends Mock implements Client {}
 
-@GenerateMocks(
-  [RemoteDataSource, FootballRepository, GetLeagues],
-  customMocks: [MockSpec<http.Client>(as: #MockHttpClient)],
-)
-void main() {}
+class MockFootballRepository extends Mock implements FootballRepository {}
+
+class MockGetLeagues extends Mock implements GetLeagues {}
