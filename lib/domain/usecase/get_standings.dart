@@ -3,13 +3,14 @@ import 'package:kabar_olahraga/domain/entities/league.dart';
 import 'package:kabar_olahraga/domain/repositories/footbal_repository.dart';
 
 import '../../common/failure.dart';
+import '../entities/standing.dart';
 
-class GetLeagues {
+class GetStandings {
   final FootballRepository _repository;
 
-  const GetLeagues(this._repository);
+  const GetStandings(this._repository);
 
-  Future<Either<Failure, List<League>>> execute(String countryId) {
-    return _repository.getLeagues(countryId);
+  Future<Either<Failure, List<Standing>>> execute(int league, int season) {
+    return _repository.getStandings(league, season);
   }
 }

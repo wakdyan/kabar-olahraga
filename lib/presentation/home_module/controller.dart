@@ -1,36 +1,30 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../common/enum.dart';
-import '../../domain/entities/league.dart';
-import '../../domain/usecase/get_leagues.dart';
+import '../../common/constants.dart';
 
-class HomeController extends GetxController {
-  final GetLeagues _usecase;
+class HomeController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  late final TabController tabController;
 
-  var errorMessage = '';
-  var leagues = <League>[];
-  var requestState = RequestState.idle;
+  final tabs = <Tab>[];
+  final pages = <Widget>[];
 
-  HomeController(this._usecase) {
-    getLeagues();
+  @override
+  void onInit() {
+    for (var tab in tabData) {
+      tabs.add(Tab(text: tab['label']));
+      pages.add(tab['page']);
+    }
+
+    tabController = TabController(length: tabs.length, vsync: this);
+
+    super.onInit();
   }
 
-  Future<void> getLeagues() async {
-    requestState = RequestState.busy;
-    update();
-
-    final result = await _usecase.execute();
-    result.fold(
-      (error) {
-        errorMessage = error.message;
-        requestState = RequestState.error;
-      },
-      (success) {
-        leagues = success;
-        requestState = RequestState.success;
-      },
-    );
-
-    update();
+  @override
+  void onClose() {
+    tabController.dispose();
+    super.onClose();
   }
 }

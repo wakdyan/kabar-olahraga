@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:kabar_olahraga/data/data_sources/remote_data_source.dart';
-import 'package:kabar_olahraga/domain/entities/country.dart';
-import 'package:kabar_olahraga/domain/entities/league.dart';
 
 import '../../common/exceptions.dart';
 import '../../common/failure.dart';
+import '../../domain/entities/country.dart';
+import '../../domain/entities/league.dart';
+import '../../domain/entities/standing.dart';
 import '../../domain/repositories/footbal_repository.dart';
+import '../data_sources/remote_data_source.dart';
 
 class FootballRepositoryImpl extends FootballRepository {
   final RemoteDataSource remoteDataSource;
@@ -28,11 +29,25 @@ class FootballRepositoryImpl extends FootballRepository {
   }
 
   @override
-  Future<Either<Failure, List<League>>> getLeagues() async {
+  Future<Either<Failure, List<League>>> getLeagues(String countryId) async {
     try {
-      final result = await remoteDataSource.getLeagues();
+      final result = await remoteDataSource.getLeagues(countryId);
       final leagues = result.map((e) => e.toEntity()).toList();
       return Right(leagues);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Standing>>> getStandings(
+      int league, int season) async {
+    try {
+      final result = await remoteDataSource.getStandings(league, season);
+      final standings = result.standings.map((e) => e.toEntity()).toList();
+      return Right(standings);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {

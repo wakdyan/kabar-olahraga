@@ -8,6 +8,7 @@ import 'package:kabar_olahraga/data/data_sources/remote_data_source.dart';
 import 'package:kabar_olahraga/data/models/country_response.dart';
 import 'package:kabar_olahraga/data/models/fixture_response.dart';
 import 'package:kabar_olahraga/data/models/league_response.dart';
+import 'package:kabar_olahraga/data/models/standing_model.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/mock_class.dart';
@@ -287,6 +288,32 @@ void main() {
           final result = remoteDataSource.getFixtures();
 
           expect(result, throwsA(isA<SocketException>()));
+        },
+      );
+    },
+  );
+
+  group(
+    'get standings',
+    () {
+      const uri = '${baseUrl}fixtures';
+      test(
+        'should return [standings] when the status code is 200',
+        () async {
+          final matcher = when(
+            () => mockHttpClient.get(
+              Uri.parse(uri),
+              headers: headers,
+            ),
+          ).thenAnswer(
+            (_) async {
+              return Response(readJson('dummy_standings_200.dart'), 200);
+            },
+          );
+
+          final result = await remoteDataSource.getStandings(leagueId, season);
+
+          expect(result, matcher);
         },
       );
     },

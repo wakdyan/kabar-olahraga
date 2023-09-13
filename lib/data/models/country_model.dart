@@ -4,8 +4,8 @@ import '../../domain/entities/country.dart';
 
 class CountryModel extends Equatable {
   final String name;
-  final String code;
-  final String flag;
+  final String? code;
+  final String? flag;
 
   const CountryModel(this.name, this.code, this.flag);
 

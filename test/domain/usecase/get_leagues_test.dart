@@ -12,6 +12,8 @@ import '../../helpers/mock_class.dart';
 import '../../json_reader.dart';
 
 void main() {
+  const countryId = '39';
+
   final mockRepository = MockFootballRepository();
   final getLeagues = GetLeagues(mockRepository);
 
@@ -26,11 +28,11 @@ void main() {
         matcher.add(league.toEntity());
       }
 
-      when(() => mockRepository.getLeagues()).thenAnswer((_) async {
+      when(() => mockRepository.getLeagues(countryId)).thenAnswer((_) async {
         return Right(matcher);
       });
 
-      final result = await getLeagues.execute();
+      final result = await getLeagues.execute(countryId);
       final resultList = result.getOrElse(() => []);
 
       expect(resultList, matcher);
@@ -40,11 +42,11 @@ void main() {
   test(
     'should return [failure] when request is unsuccessful',
     () async {
-      when(() => mockRepository.getLeagues()).thenAnswer((_) async {
+      when(() => mockRepository.getLeagues(countryId)).thenAnswer((_) async {
         return const Left(ServerFailure(''));
       });
 
-      final result = await getLeagues.execute();
+      final result = await getLeagues.execute(countryId);
 
       expect(result, const Left(ServerFailure('')));
     },
