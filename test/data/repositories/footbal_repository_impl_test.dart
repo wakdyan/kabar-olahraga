@@ -64,6 +64,8 @@ void main() {
   });
 
   group('getLeagues', () {
+    const countryId = '39';
+
     test('should return Leauge when request is successfull', () async {
       final decode = json.decode(readJson('dummy/leagues_200.json'));
       final leagueModel = LeagueResponse.fromJson(decode).leagues;
@@ -71,11 +73,10 @@ void main() {
         for (var league in leagueModel) league.toEntity()
       ];
 
-      when(() => mockRemoteDataSource.getLeagues()).thenAnswer((_) async {
-        return leagueModel;
-      });
+      when(() => mockRemoteDataSource.getLeagues(countryId))
+          .thenAnswer((_) async => leagueModel);
 
-      final result = await repository.getLeagues();
+      final result = await repository.getLeagues(countryId);
       final resultList = result.getOrElse(() => []);
 
       expect(resultList, leagues);
@@ -84,10 +85,10 @@ void main() {
     test(
       'should return ServerFailure when request is unsuccessfull',
       () async {
-        when(() => mockRemoteDataSource.getLeagues())
+        when(() => mockRemoteDataSource.getLeagues(countryId))
             .thenThrow(const ServerException(''));
 
-        final result = await repository.getLeagues();
+        final result = await repository.getLeagues(countryId);
 
         expect(result, const Left(ServerFailure('')));
       },
@@ -96,10 +97,10 @@ void main() {
     test(
       'should return ConnectionFailure when no internet connection',
       () async {
-        when(() => mockRemoteDataSource.getLeagues()).thenThrow(
+        when(() => mockRemoteDataSource.getLeagues(countryId)).thenThrow(
             const SocketException('Failed to connect to the network'));
 
-        final result = await repository.getLeagues();
+        final result = await repository.getLeagues(countryId);
 
         expect(
           result,
