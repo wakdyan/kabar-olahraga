@@ -9,7 +9,7 @@ class FootballController extends GetxController {
   final GetCountries _usecase;
 
   var errorMessage = '';
-  var leagues = <Country>[];
+  var countries = <Country>[];
   var requestState = RequestState.idle;
 
   FootballController(this._usecase);
@@ -25,8 +25,8 @@ class FootballController extends GetxController {
         requestState = RequestState.error;
       },
       (data) {
-        leagues = data;
-        leagues.removeWhere((data) => data.code == null || data.flag == null);
+        countries = data;
+        countries.removeWhere((data) => data.code == null || data.flag == null);
         requestState = RequestState.success;
       },
     );
