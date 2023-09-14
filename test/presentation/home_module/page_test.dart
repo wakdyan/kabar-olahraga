@@ -1,28 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:kabar_olahraga/common/constants.dart';
 import 'package:kabar_olahraga/common/enum.dart';
 import 'package:kabar_olahraga/presentation/football_module/module.dart';
 import 'package:kabar_olahraga/presentation/home_module/module.dart';
-import '../../presentation/football_module/page_test.dart' as p;
 import 'package:mocktail/mocktail.dart';
 
+import '../../helpers/mock_class.dart';
 import '../../helpers/widget_wrapper.dart';
 
-class Mocking extends GetxController
-    with Mock, GetTickerProviderStateMixin
-    implements HomeController {
-  @override
-  TabController get tabController {
-    return TabController(length: tabData.length, vsync: this);
-  }
-}
-
 void main() {
-  HomeController controller = Mocking();
-  FootballController footballController = p.Mocking();
+  final controller = MockHomeController();
+  FootballController footballController = MockFootballController();
 
   tearDownAll(() => Get.reset());
 

@@ -6,12 +6,11 @@ import 'package:kabar_olahraga/common/enum.dart';
 import 'package:kabar_olahraga/presentation/football_module/module.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../helpers/mock_class.dart';
 import '../../helpers/widget_wrapper.dart';
 
-class Mocking extends GetxController with Mock implements FootballController {}
-
 void main() {
-  FootballController controller = Mocking();
+  FootballController controller = MockFootballController();
 
   tearDownAll(() => Get.reset());
 
