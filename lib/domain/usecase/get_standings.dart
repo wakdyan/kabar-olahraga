@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:kabar_olahraga/domain/repositories/footbal_repository.dart';
 
 import '../../common/failure.dart';
 import '../entities/standing.dart';
+import '../repositories/footbal_repository.dart';
 
 class GetStandings {
   final FootballRepository _repository;
