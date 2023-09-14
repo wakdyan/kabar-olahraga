@@ -14,6 +14,12 @@ class FootballController extends GetxController {
 
   FootballController(this._usecase);
 
+  @override
+  void onReady() {
+    getCountries();
+    super.onReady();
+  }
+
   Future<void> getCountries() async {
     requestState = RequestState.busy;
     update();
