@@ -13,9 +13,10 @@ class FootballPage extends GetView<FootballController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: const Key('football_page'),
       body: GetBuilder<FootballController>(
         initState: (_) {
-          if (controller.leagues.isEmpty) controller.getCountries();
+          if (controller.countries.isEmpty) controller.getCountries();
         },
         builder: (_) {
           if (controller.requestState == RequestState.busy) {
@@ -35,9 +36,9 @@ class FootballPage extends GetView<FootballController> {
   Widget _buildLeagues() {
     return ListView.separated(
       key: const PageStorageKey('football_list'),
-      itemCount: controller.leagues.length,
+      itemCount: controller.countries.length,
       itemBuilder: (_, index) {
-        final country = controller.leagues[index];
+        final country = controller.countries[index];
         return ListTile(
           onTap: () => controller.moveToDetailPage(country),
           leading: SvgPicture.network(
