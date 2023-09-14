@@ -2,65 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:kabar_olahraga/common/constants.dart';
 import 'package:kabar_olahraga/common/enum.dart';
+import 'package:kabar_olahraga/presentation/football_module/module.dart';
 import 'package:kabar_olahraga/presentation/home_module/module.dart';
+import '../../presentation/football_module/page_test.dart' as p;
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/widget_wrapper.dart';
 
-class Mocking extends GetxController with Mock implements HomeController {}
+class Mocking extends GetxController
+    with Mock, GetTickerProviderStateMixin
+    implements HomeController {
+  @override
+  TabController get tabController {
+    return TabController(length: tabData.length, vsync: this);
+  }
+}
 
 void main() {
   HomeController controller = Mocking();
+  FootballController footballController = p.Mocking();
 
   tearDownAll(() => Get.reset());
 
   testWidgets(
-    'show [loading widget] if state is busy',
+    'show football page',
     (tester) async {
-      when(() => controller.requestState).thenReturn(RequestState.idle);
+      when(() => controller.tabs)
+          .thenReturn([for (var tab in tabData) Tab(text: tab['label'])]);
+      when(() => controller.pages)
+          .thenReturn([for (var tab in tabData) tab['page']]);
+      when(() => footballController.requestState)
+          .thenReturn(RequestState.success);
+      when(() => footballController.countries).thenReturn([]);
+      when(() => footballController.getCountries()).thenAnswer((_) async => {});
 
       Get.put(controller);
+      Get.put(footballController);
 
       await tester.pumpWidget(widgetWrapper(const HomePage()));
 
-      final loadingWidget = find.byKey(const Key('loader'));
+      final footbalPage = find.byKey(const Key('home_page'));
 
-      expect(loadingWidget, findsNothing);
-    },
-  );
-
-  testWidgets(
-    'show [error widget] if state is error',
-    (tester) async {
-      when(() => controller.requestState).thenReturn(RequestState.error);
-      when(() => controller.errorMessage).thenReturn('failed');
-
-      Get.put(controller);
-
-      await tester.pumpWidget(widgetWrapper(const HomePage()));
-
-      final errorWidget = find.byKey(const Key('error'));
-      final errorMessage = find.text('failed');
-
-      expect(errorWidget, findsOneWidget);
-      expect(errorMessage, findsOneWidget);
-    },
-  );
-
-  testWidgets(
-    'show [list widget] if state is success',
-    (tester) async {
-      when(() => controller.requestState).thenReturn(RequestState.success);
-      when(() => controller.leagues).thenReturn([]);
-
-      Get.put(controller);
-
-      await tester.pumpWidget(widgetWrapper(const HomePage()));
-
-      final listWidget = find.byKey(const Key('list'));
-
-      expect(listWidget, findsOneWidget);
+      expect(footbalPage, findsOneWidget);
     },
   );
 }
