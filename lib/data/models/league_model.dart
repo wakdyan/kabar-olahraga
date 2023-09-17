@@ -30,10 +30,12 @@ class LeagueModel extends Equatable {
 
   e.League toEntity() {
     return e.League(
-      league.id,
-      league.name,
-      league.type,
-      league.logo,
+      id: league.id,
+      name: league.name,
+      type: league.type,
+      logo: league.logo,
+      country: country.name,
+      flag: country.flag,
     );
   }
 
