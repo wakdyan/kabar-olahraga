@@ -19,6 +19,10 @@ class Team extends Equatable {
     );
   }
 
+  e.Team toEntity() {
+    return e.Team(id: id, name: name, logo: logo);
+  }
+
   @override
   List<Object?> get props => [id, name, logo];
 }
