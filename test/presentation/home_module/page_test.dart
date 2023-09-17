@@ -11,7 +11,7 @@ import '../../helpers/mock_class.dart';
 import '../../helpers/widget_wrapper.dart';
 
 void main() {
-  final controller = MockHomeController();
+  HomeController controller = MockHomeController();
   FootballController footballController = MockFootballController();
 
   tearDownAll(() => Get.reset());
