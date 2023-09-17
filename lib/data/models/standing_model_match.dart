@@ -18,10 +18,20 @@ class Match extends Equatable {
       win: json['win'],
       draw: json['draw'],
       lose: json['lose'],
-      goals: (json['for'], json['against']),
+      goals: (json['goals']['for'], json['goals']['against']),
     );
   }
 
   @override
   List<Object?> get props => [played, win, draw, lose, goals];
+
+  e.MatchHistory toEntity() {
+    return e.MatchHistory(
+      played: played,
+      win: win,
+      draw: draw,
+      lose: lose,
+      goals: goals,
+    );
+  }
 }
