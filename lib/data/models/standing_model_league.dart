@@ -24,6 +24,19 @@ class League extends Equatable {
     );
   }
 
+  e.League toEntity() {
+    return e.League(
+      id: id,
+      season: season.toString(),
+      name: name,
+      country: country,
+      logo: logo,
+      flag: flag,
+    );
+  }
+
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props {
+    return [id, season, name, country, logo, flag];
+  }
 }
