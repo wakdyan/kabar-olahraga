@@ -40,9 +40,16 @@ class AppPage {
           page: () => const FootballPage(),
           children: [
             GetPage(
-              name: AppRoute.footballDetail,
+              name: AppRoute.footballLeague,
               binding: FootballDetailBinding(),
               page: () => const FootballDetailPage(),
+              children: [
+                GetPage(
+                  name: AppRoute.footballLeagueDetail,
+                  binding: FootballLeagueDetailBinding(),
+                  page: () => const FootballLeagueDetailPage(),
+                ),
+              ],
             ),
           ],
         ),
