@@ -2,5 +2,8 @@ export 'binding.dart';
 export 'controller.dart';
 export 'football_league_module/binding.dart';
 export 'football_league_module/controller.dart';
+export 'football_league_module/football_league_detail_module/binding.dart';
+export 'football_league_module/football_league_detail_module/controller.dart';
+export 'football_league_module/football_league_detail_module/page.dart';
 export 'football_league_module/page.dart';
 export 'page.dart';
