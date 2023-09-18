@@ -41,7 +41,7 @@ class FootballController extends GetxController {
 
   void moveToDetailPage(Country country) {
     Get.toNamed(
-      '${AppRoute.football}${AppRoute.footballDetail}',
+      '${AppRoute.football}${AppRoute.footballLeague}',
       arguments: country,
     );
   }
