@@ -49,6 +49,7 @@ class FootballDetailPage extends GetView<FootballDetailController> {
       itemBuilder: (_, index) {
         final league = controller.leagues[index];
         return ListTile(
+          onTap: () => controller.moveToLeagueDetailPage(league),
           leading: Container(
             width: 56,
             height: 56,
