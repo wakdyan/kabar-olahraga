@@ -25,6 +25,8 @@ class FootballRepositoryImpl extends FootballRepository {
       return Left(ServerFailure(e.message));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
@@ -38,12 +40,16 @@ class FootballRepositoryImpl extends FootballRepository {
       return Left(ServerFailure(e.message));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 
   @override
   Future<Either<Failure, Standing?>> getStandings(
-      int league, int season) async {
+    int league,
+    int season,
+  ) async {
     try {
       final result = await remoteDataSource.getStandings(league, season);
       if (result.isEmpty) return const Right(null);
