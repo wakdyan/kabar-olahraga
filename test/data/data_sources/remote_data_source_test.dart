@@ -15,9 +15,9 @@ import '../../helpers/mock_class.dart';
 import '../../json_reader.dart';
 
 void main() {
-  const baseUrl = 'https://v3.football.api-sports.io/';
+  const host = 'v3.football.api-sports.io';
   const headers = {
-    'x-rapidapi-host': 'v3.football.api-sports.io',
+    'x-rapidapi-host': host,
     'x-rapidapi-key': '5f2da4b3d7988f60b7acc56918d331c6',
   };
 
@@ -27,7 +27,11 @@ void main() {
   group(
     'get countries',
     () {
-      const uri = '${baseUrl}countries';
+      final uri = Uri(
+        scheme: 'https',
+        host: host,
+        path: 'countries',
+      );
 
       test(
         'should return [countries] when the status code is 200',
@@ -38,7 +42,7 @@ void main() {
 
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer(
@@ -58,7 +62,7 @@ void main() {
         () async {
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer(
@@ -78,7 +82,7 @@ void main() {
         () async {
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer(
@@ -98,7 +102,7 @@ void main() {
         () async {
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenThrow(const SocketException('message'));
@@ -115,7 +119,12 @@ void main() {
     'get leagues',
     () {
       const countryId = '39';
-      const uri = '${baseUrl}leagues?code=$countryId';
+      final uri = Uri(
+        scheme: 'https',
+        host: host,
+        path: 'leagues',
+        queryParameters: {'code': countryId},
+      );
 
       test(
         'should return [leagues] when the status code is 200',
@@ -126,7 +135,7 @@ void main() {
 
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer(
@@ -150,7 +159,7 @@ void main() {
 
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer(
@@ -170,7 +179,7 @@ void main() {
         () {
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer(
@@ -190,7 +199,7 @@ void main() {
         () async {
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenThrow(const SocketException('message'));
@@ -206,7 +215,11 @@ void main() {
   group(
     'get fixtures',
     () {
-      const uri = '${baseUrl}fixtures';
+      final uri = Uri(
+        scheme: 'https',
+        host: host,
+        path: 'fixtures',
+      );
 
       test(
         'should return [fixtures] when the status code is 200',
@@ -217,7 +230,7 @@ void main() {
 
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer(
@@ -241,7 +254,7 @@ void main() {
 
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer(
@@ -261,7 +274,7 @@ void main() {
         () async {
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer(
@@ -281,7 +294,7 @@ void main() {
         () async {
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenThrow(const SocketException('message'));
@@ -297,9 +310,17 @@ void main() {
   group(
     'get standings',
     () {
-      const uri = '${baseUrl}standings';
       const leagueId = 39;
       const season = 2019;
+      final uri = Uri(
+        scheme: 'https',
+        host: host,
+        path: 'standings',
+        queryParameters: {
+          'league': '$leagueId',
+          'season': '$season',
+        },
+      );
 
       test(
         'should return [standings] when the status code is 200',
@@ -310,7 +331,7 @@ void main() {
 
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer((_) async => Response(rawJson, 200));
@@ -330,7 +351,7 @@ void main() {
 
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer((_) async => Response(rawJson, 204));
@@ -348,7 +369,7 @@ void main() {
 
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenAnswer((_) async => Response(rawJson, 500));
@@ -364,7 +385,7 @@ void main() {
         () async {
           when(
             () => mockHttpClient.get(
-              Uri.parse(uri),
+              uri,
               headers: headers,
             ),
           ).thenThrow(const SocketException('message'));
