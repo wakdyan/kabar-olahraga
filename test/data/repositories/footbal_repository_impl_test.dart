@@ -7,9 +7,11 @@ import 'package:kabar_olahraga/common/exceptions.dart';
 import 'package:kabar_olahraga/common/failure.dart';
 import 'package:kabar_olahraga/data/data_sources/remote_data_source.dart';
 import 'package:kabar_olahraga/data/models/country_response.dart';
+import 'package:kabar_olahraga/data/models/standing_response.dart';
 import 'package:kabar_olahraga/domain/entities/league.dart' as e;
 import 'package:kabar_olahraga/data/models/league_response.dart';
 import 'package:kabar_olahraga/data/repositories/footbal_repository_impl.dart';
+import 'package:kabar_olahraga/domain/entities/standing.dart' as e;
 import 'package:mocktail/mocktail.dart';
 
 import '../../json_reader.dart';
@@ -105,6 +107,69 @@ void main() {
         expect(
           result,
           const Left(ConnectionFailure('Failed to connect to the network')),
+        );
+      },
+    );
+  });
+
+  group('getStandings', () {
+    const leagueId = 39;
+    const season = 2019;
+
+    test('should return Standing when request is successfull', () async {
+      final decode = json.decode(readJson('dummy/standings_200.json'));
+      final standingModel = StandingResponse.fromJson(decode).standings;
+      final standings = <e.Standing>[
+        for (var standing in standingModel) standing.toEntity()
+      ];
+
+      when(() => mockRemoteDataSource.getStandings(leagueId, season))
+          .thenAnswer((_) async => standingModel);
+
+      final result = await repository.getStandings(leagueId, season);
+
+      expect(result, Right(standings.first));
+    });
+
+    test(
+      'should return ServerFailure when request is unsuccessfull',
+      () async {
+        when(() => mockRemoteDataSource.getStandings(leagueId, season))
+            .thenThrow(const ServerException(''));
+
+        final result = await repository.getStandings(leagueId, season);
+
+        expect(result, const Left(ServerFailure('')));
+      },
+    );
+
+    test(
+      'should return ConnectionFailure when no internet connection',
+      () async {
+        when(() => mockRemoteDataSource.getStandings(leagueId, season))
+            .thenThrow(
+                const SocketException('Failed to connect to the network'));
+
+        final result = await repository.getStandings(leagueId, season);
+
+        expect(
+          result,
+          const Left(ConnectionFailure('Failed to connect to the network')),
+        );
+      },
+    );
+
+    test(
+      'should return GeneralFailure when no internet connection',
+      () async {
+        when(() => mockRemoteDataSource.getStandings(leagueId, season))
+            .thenThrow(Exception('error'));
+
+        final result = await repository.getStandings(leagueId, season);
+
+        expect(
+          result,
+          Left(GeneralFailure(Exception('error').toString())),
         );
       },
     );
