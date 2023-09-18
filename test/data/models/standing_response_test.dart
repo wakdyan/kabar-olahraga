@@ -57,9 +57,9 @@ void main() {
         ],
       ],
     );
-    const matcher = [standing];
+    const matcher = StandingResponse([standing]);
     final parsedJson = jsonDecode(readJson('dummy/standings_200.json'));
-    final result = StandingResponse.fromJson(parsedJson).standings;
+    final result = StandingResponse.fromJson(parsedJson);
 
     expect(result, matcher);
   });
