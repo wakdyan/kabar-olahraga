@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:kabar_olahraga/common/constants.dart';
 import 'package:kabar_olahraga/domain/repositories/footbal_repository.dart';
 import 'package:kabar_olahraga/domain/usecase/get_countries.dart';
