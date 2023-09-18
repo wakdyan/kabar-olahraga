@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-09-10 11:37:02</td>
+            <td class="headerValue">2023-09-18 10:47:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -65,14 +65,25 @@
 <a name="3"><span class="lineNum">       3 </span>            : class League extends Equatable {</a>
 <a name="4"><span class="lineNum">       4 </span>            :   final int id;</a>
 <a name="5"><span class="lineNum">       5 </span>            :   final String name;</a>
-<a name="6"><span class="lineNum">       6 </span>            :   final String type;</a>
-<a name="7"><span class="lineNum">       7 </span>            :   final String logo;</a>
-<a name="8"><span class="lineNum">       8 </span>            : </a>
-<a name="9"><span class="lineNum">       9 </span><span class="lineCov">          3 :   const League(this.id, this.name, this.type, this.logo);</span></a>
-<a name="10"><span class="lineNum">      10 </span>            : </a>
-<a name="11"><span class="lineNum">      11 </span><span class="lineCov">          1 :   @override</span></a>
-<a name="12"><span class="lineNum">      12 </span><span class="lineCov">          5 :   List&lt;Object?&gt; get props =&gt; [id, name, type, logo];</span></a>
-<a name="13"><span class="lineNum">      13 </span>            : }</a>
+<a name="6"><span class="lineNum">       6 </span>            :   final String logo;</a>
+<a name="7"><span class="lineNum">       7 </span>            :   final String country;</a>
+<a name="8"><span class="lineNum">       8 </span>            :   final String? type;</a>
+<a name="9"><span class="lineNum">       9 </span>            :   final String? season;</a>
+<a name="10"><span class="lineNum">      10 </span>            :   final String? flag;</a>
+<a name="11"><span class="lineNum">      11 </span>            : </a>
+<a name="12"><span class="lineNum">      12 </span><span class="lineCov">          3 :   const League({</span></a>
+<a name="13"><span class="lineNum">      13 </span>            :     required this.id,</a>
+<a name="14"><span class="lineNum">      14 </span>            :     required this.name,</a>
+<a name="15"><span class="lineNum">      15 </span>            :     required this.logo,</a>
+<a name="16"><span class="lineNum">      16 </span>            :     required this.country,</a>
+<a name="17"><span class="lineNum">      17 </span>            :     this.type,</a>
+<a name="18"><span class="lineNum">      18 </span>            :     this.season,</a>
+<a name="19"><span class="lineNum">      19 </span>            :     this.flag,</a>
+<a name="20"><span class="lineNum">      20 </span>            :   });</a>
+<a name="21"><span class="lineNum">      21 </span>            : </a>
+<a name="22"><span class="lineNum">      22 </span><span class="lineCov">          1 :   @override</span></a>
+<a name="23"><span class="lineNum">      23 </span><span class="lineCov">          8 :   List&lt;Object?&gt; get props =&gt; [id, name, type, logo, country, season, flag];</span></a>
+<a name="24"><span class="lineNum">      24 </span>            : }</a>
 </pre>
       </td>
     </tr>

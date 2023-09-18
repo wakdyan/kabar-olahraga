@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-09-10 11:37:02</td>
+            <td class="headerValue">2023-09-18 10:47:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -67,11 +67,11 @@
 <a name="5"><span class="lineNum">       5 </span>            : class LeagueResponse extends Equatable {</a>
 <a name="6"><span class="lineNum">       6 </span>            :   final List&lt;LeagueModel&gt; leagues;</a>
 <a name="7"><span class="lineNum">       7 </span>            : </a>
-<a name="8"><span class="lineNum">       8 </span><span class="lineCov">          6 :   const LeagueResponse(this.leagues);</span></a>
+<a name="8"><span class="lineNum">       8 </span><span class="lineCov">          5 :   const LeagueResponse(this.leagues);</span></a>
 <a name="9"><span class="lineNum">       9 </span>            : </a>
-<a name="10"><span class="lineNum">      10 </span><span class="lineCov">          5 :   factory LeagueResponse.fromJson(Map&lt;String, dynamic&gt; json) {</span></a>
-<a name="11"><span class="lineNum">      11 </span><span class="lineCov">          5 :     return LeagueResponse(</span></a>
-<a name="12"><span class="lineNum">      12 </span><span class="lineCov">         30 :       List.from(json['response']).map((e) =&gt; LeagueModel.fromJson(e)).toList(),</span></a>
+<a name="10"><span class="lineNum">      10 </span><span class="lineCov">          4 :   factory LeagueResponse.fromJson(Map&lt;String, dynamic&gt; json) {</span></a>
+<a name="11"><span class="lineNum">      11 </span><span class="lineCov">          4 :     return LeagueResponse(</span></a>
+<a name="12"><span class="lineNum">      12 </span><span class="lineCov">         24 :       List.from(json['response']).map((e) =&gt; LeagueModel.fromJson(e)).toList(),</span></a>
 <a name="13"><span class="lineNum">      13 </span>            :     );</a>
 <a name="14"><span class="lineNum">      14 </span>            :   }</a>
 <a name="15"><span class="lineNum">      15 </span>            : </a>
