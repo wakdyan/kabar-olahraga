@@ -9,7 +9,7 @@ class GetStandings {
 
   const GetStandings(this._repository);
 
-  Future<Either<Failure, List<Standing>>> execute(int league, int season) {
+  Future<Either<Failure, Standing?>> execute(int league, int season) {
     return _repository.getStandings(league, season);
   }
 }
