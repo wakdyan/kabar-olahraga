@@ -63,6 +63,21 @@ void main() {
         );
       },
     );
+
+    test(
+      'should return GeneralFailure when no internet connection',
+      () async {
+        when(() => mockRemoteDataSource.getCountries())
+            .thenThrow(Exception('error'));
+
+        final result = await repository.getCountries();
+
+        expect(
+          result,
+          Left(GeneralFailure(Exception('error').toString())),
+        );
+      },
+    );
   });
 
   group('getLeagues', () {
@@ -107,6 +122,21 @@ void main() {
         expect(
           result,
           const Left(ConnectionFailure('Failed to connect to the network')),
+        );
+      },
+    );
+
+    test(
+      'should return GeneralFailure when no internet connection',
+      () async {
+        when(() => mockRemoteDataSource.getLeagues(countryId))
+            .thenThrow(Exception('error'));
+
+        final result = await repository.getLeagues(countryId);
+
+        expect(
+          result,
+          Left(GeneralFailure(Exception('error').toString())),
         );
       },
     );
