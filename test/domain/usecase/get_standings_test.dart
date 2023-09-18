@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kabar_olahraga/common/failure.dart';
+import 'package:kabar_olahraga/data/models/standing_model.dart';
 import 'package:kabar_olahraga/data/models/standing_response.dart';
-import 'package:kabar_olahraga/domain/entities/standing.dart' as e;
 import 'package:kabar_olahraga/domain/usecase/get_standings.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -21,21 +21,22 @@ void main() {
   test(
     'should return [data] when request is successful',
     () async {
-      final matcher = <e.Standing>[];
       final json = jsonDecode(readJson('dummy/standings_200.json'));
       final parsed = StandingResponse.fromJson(json);
+      final standings = <StandingModel>[];
 
       for (var standing in parsed.standings) {
-        matcher.add(standing.toEntity());
+        standings.add(standing);
       }
+
+      final matcher = standings[0].toEntity();
 
       when(() => mockRepository.getStandings(leagueId, season))
           .thenAnswer((_) async => Right(matcher));
 
       final result = await usecase.execute(leagueId, season);
-      final resultList = result.getOrElse(() => []);
 
-      expect(resultList, matcher);
+      expect(result, Right(matcher));
     },
   );
 
