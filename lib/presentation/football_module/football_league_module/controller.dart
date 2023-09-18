@@ -4,6 +4,7 @@ import '../../../common/enum.dart';
 import '../../../domain/entities/country.dart';
 import '../../../domain/entities/league.dart';
 import '../../../domain/usecase/get_leagues.dart';
+import '../../../routes/app_page.dart';
 
 class FootballDetailController extends GetxController {
   final GetLeagues _usecase;
@@ -38,5 +39,12 @@ class FootballDetailController extends GetxController {
       },
     );
     update();
+  }
+
+  void moveToLeagueDetailPage(League league) {
+    Get.toNamed(
+      '${Get.currentRoute}${AppRoute.footballLeagueDetail}',
+      arguments: league,
+    );
   }
 }
