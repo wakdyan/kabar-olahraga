@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 
 import '../../common/exceptions.dart';
@@ -19,16 +21,17 @@ abstract class RemoteDataSource {
 
   Future<List<FixtureModel>> getFixtures();
 
-  Future<StandingModel> getStandings(int leagueId, int season);
+  Future<List<StandingModel>> getStandings(int leagueId, int season);
 }
 
-class ImplRemoteDataSource extends RemoteDataSource {
+class ImplRemoteDataSource extends GetxService implements RemoteDataSource {
   final Client _client;
 
-  final _baseUrl = 'https://v3.football.api-sports.io/';
-  final _headers = {
-    'x-rapidapi-host': 'v3.football.api-sports.io',
-    'x-rapidapi-key': '5f2da4b3d7988f60b7acc56918d331c6',
+  static const _apiKey = String.fromEnvironment('api_key');
+  static const _host = 'v3.football.api-sports.io';
+  static const _headers = {
+    'x-rapidapi-host': _host,
+    'x-rapidapi-key': _apiKey,
   };
 
   ImplRemoteDataSource(this._client);
@@ -36,64 +39,81 @@ class ImplRemoteDataSource extends RemoteDataSource {
   @override
   Future<List<CountryModel>> getCountries() async {
     try {
-      final result = await _client.get(
-        Uri.parse('${_baseUrl}countries'),
-        headers: _headers,
-      );
+      final uri = Uri(scheme: 'https', host: _host, path: 'countries');
+      final result = await _client.get(uri, headers: _headers);
       final json = jsonDecode(result.body);
+
       if (result.statusCode == 200 || result.statusCode == 204) {
         return CountryResponse.fromJson(json).countries;
       } else {
         throw ServerException(json['message']);
       }
-    } catch (e) {
-      throw ServerException(e.toString());
+    } catch (_) {
+      rethrow;
     }
   }
 
   @override
   Future<List<LeagueModel>> getLeagues(String countryId) async {
     try {
-      final result = await _client.get(
-        Uri.parse('${_baseUrl}leagues?code=$countryId'),
-        headers: _headers,
+      final uri = Uri(
+        scheme: 'https',
+        host: _host,
+        path: 'leagues',
+        query: 'code=$countryId',
       );
+      final result = await _client.get(uri, headers: _headers);
       final json = jsonDecode(result.body);
+
       if (result.statusCode == 200 || result.statusCode == 204) {
         return LeagueResponse.fromJson(json).leagues;
       } else {
         throw ServerException(json['message']);
       }
-    } catch (e) {
-      throw ServerException(e.toString());
+    } catch (_) {
+      rethrow;
     }
   }
 
   @override
   Future<List<FixtureModel>> getFixtures() async {
-    final result = await _client.get(
-      Uri.parse('${_baseUrl}fixtures'),
-      headers: _headers,
-    );
-    final json = jsonDecode(result.body);
-    if (result.statusCode == 200 || result.statusCode == 204) {
-      return FixtureResponse.fromJson(json).fixtures;
-    } else {
-      throw ServerException(json['message']);
+    try {
+      final uri = Uri(scheme: 'https', host: _host, path: 'fixtures');
+      final result = await _client.get(uri, headers: _headers);
+      final json = jsonDecode(result.body);
+
+      if (result.statusCode == 200 || result.statusCode == 204) {
+        return FixtureResponse.fromJson(json).fixtures;
+      } else {
+        throw ServerException(json['message']);
+      }
+    } catch (_) {
+      rethrow;
     }
   }
 
   @override
-  Future<StandingModel> getStandings(int leagueId, int season) async {
-    final result = await _client.get(
-      Uri.parse('${_baseUrl}standings'),
-      headers: _headers,
-    );
-    final json = jsonDecode(result.body);
-    if (result.statusCode == 200 || result.statusCode == 204) {
-      return StandingResponse.fromJson(json).standing;
-    } else {
-      throw ServerException(json['message']);
+  Future<List<StandingModel>> getStandings(int leagueId, int season) async {
+    try {
+      final uri = Uri(
+        scheme: 'https',
+        host: _host,
+        path: 'standings',
+        queryParameters: {
+          'league': '$leagueId',
+          'season': '$season',
+        },
+      );
+      final result = await _client.get(uri, headers: _headers);
+      final json = jsonDecode(result.body);
+
+      if (result.statusCode == 200 || result.statusCode == 204) {
+        return StandingResponse.fromJson(json).standings;
+      } else {
+        throw ServerException(json['message']);
+      }
+    } catch (_) {
+      rethrow;
     }
   }
 }
