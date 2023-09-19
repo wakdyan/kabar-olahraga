@@ -23,7 +23,7 @@ abstract class RemoteDataSource {
   Future<List<StandingModel>> getStandings(int leagueId, int season);
 }
 
-class ImplRemoteDataSource extends GetxService implements RemoteDataSource {
+class RemoteDataSourceImpl extends GetxService implements RemoteDataSource {
   final Client _client;
 
   static const _apiKey = String.fromEnvironment('api_key');
@@ -33,7 +33,7 @@ class ImplRemoteDataSource extends GetxService implements RemoteDataSource {
     'x-rapidapi-key': _apiKey,
   };
 
-  ImplRemoteDataSource(this._client);
+  RemoteDataSourceImpl(this._client);
 
   @override
   Future<List<CountryModel>> getCountries() async {
