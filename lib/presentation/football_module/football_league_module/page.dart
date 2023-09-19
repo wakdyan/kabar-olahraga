@@ -61,7 +61,7 @@ class FootballDetailPage extends GetView<FootballDetailController> {
           title: Text(league.name),
         );
       },
-      separatorBuilder: (_, __) => const Divider(),
+      separatorBuilder: (_, __) => const Divider(indent: 16, endIndent: 16),
     );
   }
 }
