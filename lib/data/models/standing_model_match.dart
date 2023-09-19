@@ -14,11 +14,11 @@ class Match extends Equatable {
 
   factory Match.fromJson(Map<String, dynamic> json) {
     return Match(
-      played: json['played'],
-      win: json['win'],
-      draw: json['draw'],
-      lose: json['lose'],
-      goals: (json['goals']['for'], json['goals']['against']),
+      played: json['played'] ?? 0,
+      win: json['win'] ?? 0,
+      draw: json['draw'] ?? 0,
+      lose: json['lose'] ?? 0,
+      goals: (json['goals']['for'] ?? 0, json['goals']['against'] ?? 0),
     );
   }
 
