@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../data/data_sources/remote_data_source.dart';
 import '../../../data/repositories/footbal_repository_impl.dart';
@@ -12,9 +11,7 @@ class FootballDetailBinding implements Bindings {
     Get.lazyPut(
       () => FootballDetailController(
         GetLeagues(
-          FootballRepositoryImpl(
-            ImplRemoteDataSource(http.Client()),
-          ),
+          FootballRepositoryImpl(Get.find<ImplRemoteDataSource>()),
         ),
       ),
     );
