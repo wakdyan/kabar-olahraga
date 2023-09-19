@@ -45,12 +45,12 @@ class FootballPage extends GetView<FootballController> {
             country.flag!,
             width: 56,
             height: 28,
-            fit: BoxFit.fill,
+            fit: BoxFit.fitWidth,
           ),
           title: Text(country.name),
         );
       },
-      separatorBuilder: (_, __) => const Divider(),
+      separatorBuilder: (_, __) => const Divider(indent: 16, endIndent: 16),
     );
   }
 }
