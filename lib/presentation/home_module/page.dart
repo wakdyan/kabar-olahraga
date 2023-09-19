@@ -11,7 +11,7 @@ class HomePage extends GetView<HomeController> {
     return Scaffold(
       key: const Key('home_page'),
       appBar: AppBar(
-        title: const Text('Home Page'),
+        title: const Text('Kabar Olahraga'),
         bottom: TabBar(
           isScrollable: true,
           controller: controller.tabController,
