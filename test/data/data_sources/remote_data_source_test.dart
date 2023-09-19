@@ -23,7 +23,7 @@ void main() {
   };
 
   final mockHttpClient = MockClient();
-  final remoteDataSource = ImplRemoteDataSource(mockHttpClient);
+  final remoteDataSource = RemoteDataSourceImpl(mockHttpClient);
 
   group(
     'get countries',

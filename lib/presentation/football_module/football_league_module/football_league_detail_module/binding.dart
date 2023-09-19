@@ -11,7 +11,7 @@ class FootballLeagueDetailBinding implements Bindings {
     Get.lazyPut(
       () => FootballLeagueDetailController(
         GetStandings(
-          FootballRepositoryImpl(Get.find<ImplRemoteDataSource>()),
+          FootballRepositoryImpl(Get.find<RemoteDataSourceImpl>()),
         ),
       ),
     );

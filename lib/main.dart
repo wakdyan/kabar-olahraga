@@ -8,7 +8,7 @@ import 'routes/app_page.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Get.put(ImplRemoteDataSource(Client()));
+  Get.put(RemoteDataSourceImpl(Client()));
 
   runApp(const MainApp());
 }

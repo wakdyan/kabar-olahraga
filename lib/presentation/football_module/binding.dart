@@ -11,7 +11,7 @@ class FootballBinding implements Bindings {
     Get.lazyPut(
       () => FootballController(
         GetCountries(
-          FootballRepositoryImpl(Get.find<ImplRemoteDataSource>()),
+          FootballRepositoryImpl(Get.find<RemoteDataSourceImpl>()),
         ),
       ),
     );
