@@ -62,11 +62,19 @@ class FootballLeagueDetailPage extends GetView<FootballLeagueDetailController> {
               padding: const EdgeInsets.only(top: kToolbarHeight),
               child: ListTile(
                 leading: CachedNetworkImage(
-                  height: 56,
+                  width: 56,
                   imageUrl: controller.league.logo,
                 ),
-                title: Text(controller.league.name),
-                subtitle: Text(controller.league.country),
+                title: Text(
+                  controller.league.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: Text(
+                  controller.league.country,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 trailing: PopupMenuButton<int>(
                   initialValue: controller.selectedSeason.$1,
                   onSelected: controller.onMenuSelected,
