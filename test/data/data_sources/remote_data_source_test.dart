@@ -16,9 +16,10 @@ import '../../json_reader.dart';
 
 void main() {
   const host = 'v3.football.api-sports.io';
+  const apiKey = String.fromEnvironment('api_key');
   const headers = {
     'x-rapidapi-host': host,
-    'x-rapidapi-key': '5f2da4b3d7988f60b7acc56918d331c6',
+    'x-rapidapi-key': apiKey,
   };
 
   final mockHttpClient = MockClient();
