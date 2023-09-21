@@ -4,6 +4,8 @@
 
 Kabar olahraga is an application that provides information about sports. Currently the app only provides information about football.
 
+!['demo app'](https://github.com/wakdyan/kabar-olahraga/blob/main/assets/demo.gif)
+
 ## Prerequisites
 
 1. Download and install IDE (vscode or android studio).
