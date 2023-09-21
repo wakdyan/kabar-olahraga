@@ -18,7 +18,7 @@ To run this app you need to following these steps
 2. Update the package.
 <pre> flutter pub get </pre>
 3. Run the project with the command below in your terminal.
-<pre> flutter run --dart-define=api_key=YOUR_API_KEY
+<pre> flutter run --dart-define=api_key=YOUR_API_KEY</pre>
 
 ## Note
 
