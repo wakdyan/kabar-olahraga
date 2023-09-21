@@ -8,7 +8,7 @@ Kabar olahraga is an application that provides information about sports. Current
 
 ## Prerequisites
 
-1. Download and install IDE (vscode or android studio).
+1. Download and install IDE ([vscode](https://code.visualstudio.com/download) or [android studio](https://developer.android.com/studio)).
 2. Download and install [Flutter](https://docs.flutter.dev/get-started/install).
 3. Android emulator or device.
 
